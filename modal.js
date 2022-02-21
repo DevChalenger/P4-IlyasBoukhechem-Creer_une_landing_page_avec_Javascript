@@ -23,11 +23,9 @@ function launchModal() {
 function closeModal() {
   modalbg.style.display = "none";
 }
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-});
 
 function validate() {
+  //Get value from the DOM and add error message//
   const field = {
     firstName: {
       value: document.getElementById("first").value,
@@ -49,13 +47,25 @@ function validate() {
       errorMessage:
         "Veuillez remplir le champ avec une date de naissance valide pour pouvoir continuer",
     },
-    quantityOfTournaments: { value: document.getElementById("quantity").value },
-    location1: { value: document.getElementById("location1").value },
-    location2: { value: document.getElementById("location2").value },
-    location3: { value: document.getElementById("location3").value },
-    location4: { value: document.getElementById("location4").value },
-    location5: { value: document.getElementById("location5").value },
-    location6: { value: document.getElementById("location6").value },
+    quantityOfTournaments: {
+      value: document.getElementById("quantity").value,
+      errorMessage:
+        "Veuillez remplir le champ avec un nombre valide pour pouvoir continuer",
+    },
+    location: {
+      location1: { value: document.getElementById("location1").checked },
+      location2: { value: document.getElementById("location2").checked },
+      location3: { value: document.getElementById("location3").checked },
+      location4: { value: document.getElementById("location4").checked },
+      location5: { value: document.getElementById("location5").checked },
+      location6: { value: document.getElementById("location6").checked },
+      errorMessage: "Veuillez sélectionner la ville où vous voulez participer",
+    },
+    charte: {
+      value: document.getElementById("checkbox1").checked,
+      errorMessage:
+        "Veuillez accepter nos conditions d'utilisation avant de pouvoir continuer",
+    },
   };
   const controleInput = (value) => {
     return /^[A-Za-z]{1,20}$/.test(value);
@@ -112,16 +122,54 @@ function validate() {
     }
   }
   function controlQuantityOfTournaments() {
-    if (/^[0-9]+$^/.test(field.quantityOfTournaments.value)) {
+    if (/^[0-9]$|^[1-9][0-9]$|^(99)$/.test(field.quantityOfTournaments.value)) {
+      formData[4].removeAttribute("data-error");
+      formData[4].removeAttribute("data-error-visible");
       return true;
     } else {
+      formData[4].dataset.errorVisible = "true";
+      formData[4].dataset.error = field.quantityOfTournaments.errorMessage;
       return false;
     }
   }
+  function controlLocation() {
+    if (
+      (field.location.location1.value ||
+        field.location.location2.value ||
+        field.location.location3.value ||
+        field.location.location4.value ||
+        field.location.location5.value ||
+        field.location.location6.value) === true
+    ) {
+      formData[5].removeAttribute("data-error");
+      formData[5].removeAttribute("data-error-visible");
+      return true;
+    } else {
+      formData[5].dataset.errorVisible = "true";
+      formData[5].dataset.error = field.location.errorMessage;
+      return false;
+    }
+  }
+  function controlCharte() {
+    if (field.charte === true) {
+      formData[6].removeAttribute("data-error");
+      formData[6].removeAttribute("data-error-visible");
+      return true;
+    } else {
+      formData[6].dataset.errorVisible = "true";
+      formData[6].dataset.error = field.charte.errorMessage;
+    }
+  }
   //Calling Function//
+
   controlFirstName();
   controlLastName();
   controlEmail();
   controlBirthDate();
   controlQuantityOfTournaments();
+  controlLocation();
+  controlCharte();
 }
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+});
