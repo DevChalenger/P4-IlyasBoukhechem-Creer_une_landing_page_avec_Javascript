@@ -23,7 +23,9 @@ function launchModal() {
 function closeModal() {
   modalbg.style.display = "none";
 }
-
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+});
 function validate() {
   //Get value from the DOM and add error message//
   const field = {
@@ -67,6 +69,7 @@ function validate() {
         "Veuillez accepter nos conditions d'utilisation avant de pouvoir continuer",
     },
   };
+  //checking regex for each input //
   const controleInput = (value) => {
     return /^[A-Za-z]{1,20}$/.test(value);
   };
@@ -151,7 +154,7 @@ function validate() {
     }
   }
   function controlCharte() {
-    if (field.charte === true) {
+    if (field.charte.value === true) {
       formData[6].removeAttribute("data-error");
       formData[6].removeAttribute("data-error-visible");
       return true;
@@ -169,7 +172,36 @@ function validate() {
   controlQuantityOfTournaments();
   controlLocation();
   controlCharte();
+  //Confirmation message//
+  console.log(
+    controlFirstName() &&
+      controlLastName() &&
+      controlEmail() &&
+      controlBirthDate() &&
+      controlQuantityOfTournaments() &&
+      controlLocation() &&
+      controlCharte()
+  );
+  if (
+    (controlFirstName() &&
+      controlLastName() &&
+      controlEmail() &&
+      controlBirthDate() &&
+      controlQuantityOfTournaments() &&
+      controlLocation() &&
+      controlCharte()) == true
+  ) {
+    const blockConfirm = document.getElementById("confirmation-block");
+
+    blockConfirm.style.display = "block";
+    setTimeout(closeConfirm, 5000);
+    function closeConfirm() {
+      return (
+        (blockConfirm.style.display = "none"), (modalbg.style.display = "none")
+      );
+    }
+    return true;
+  } else {
+    return false;
+  }
 }
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-});
