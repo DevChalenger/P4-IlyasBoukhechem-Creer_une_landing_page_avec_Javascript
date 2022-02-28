@@ -73,6 +73,7 @@ function validate() {
   const controleInput = (value) => {
     return /^[A-Za-z]{1,20}$/.test(value);
   };
+
   function controlFirstName() {
     if (controleInput(field.firstName.value)) {
       formData[0].removeAttribute("data-error");
@@ -84,6 +85,7 @@ function validate() {
       return false;
     }
   }
+
   function controlLastName() {
     if (controleInput(field.lastName.value)) {
       formData[1].removeAttribute("data-error");
@@ -95,6 +97,7 @@ function validate() {
       return false;
     }
   }
+
   function controlEmail() {
     if (
       /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(field.eMail.value)
@@ -124,6 +127,7 @@ function validate() {
       return false;
     }
   }
+
   function controlQuantityOfTournaments() {
     if (/^[0-9]$|^[1-9][0-9]$|^(99)$/.test(field.quantityOfTournaments.value)) {
       formData[4].removeAttribute("data-error");
@@ -135,6 +139,7 @@ function validate() {
       return false;
     }
   }
+
   function controlLocation() {
     if (
       (field.location.location1.value ||
@@ -173,15 +178,6 @@ function validate() {
   controlLocation();
   controlCharte();
   //Confirmation message//
-  console.log(
-    controlFirstName() &&
-      controlLastName() &&
-      controlEmail() &&
-      controlBirthDate() &&
-      controlQuantityOfTournaments() &&
-      controlLocation() &&
-      controlCharte()
-  );
   if (
     (controlFirstName() &&
       controlLastName() &&
@@ -197,7 +193,7 @@ function validate() {
     setTimeout(closeConfirm, 5000);
     function closeConfirm() {
       return (
-        (blockConfirm.style.display = "none"), (modalbg.style.display = "none")
+        (blockConfirm.style.display = "none"), (modalbg.style.display = "none") //window.reload()//
       );
     }
     return true;
