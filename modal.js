@@ -12,7 +12,7 @@ const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const form = document.getElementById("formField");
-
+const blockConfirm = document.getElementById("text-modal");
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
@@ -22,6 +22,8 @@ function launchModal() {
 }
 function closeModal() {
   modalbg.style.display = "none";
+  blockConfirm.style.display = "none";
+  form.style.display = "block";
 }
 form.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -71,7 +73,7 @@ function validate() {
   };
   //checking regex for each input //
   const controleInput = (value) => {
-    return /^[A-Za-z]{1,20}$/.test(value);
+    return /^[A-Za-z]{2,20}$/.test(value);
   };
 
   function controlFirstName() {
@@ -168,15 +170,7 @@ function validate() {
       formData[6].dataset.error = field.charte.errorMessage;
     }
   }
-  //Calling Function//
 
-  controlFirstName();
-  controlLastName();
-  controlEmail();
-  controlBirthDate();
-  controlQuantityOfTournaments();
-  controlLocation();
-  controlCharte();
   //Confirmation message//
   if (
     (controlFirstName() &&
@@ -187,15 +181,8 @@ function validate() {
       controlLocation() &&
       controlCharte()) == true
   ) {
-    const blockConfirm = document.getElementById("confirmation-block");
-
-    blockConfirm.style.display = "block";
-    setTimeout(closeConfirm, 5000);
-    function closeConfirm() {
-      return (
-        (blockConfirm.style.display = "none"), (modalbg.style.display = "none") //window.reload()//
-      );
-    }
+    form.style.display = "none";
+    blockConfirm.style.display = "flex";
     return true;
   } else {
     return false;
